@@ -3,25 +3,35 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { TasksComponent } from './tasks/tasks.component';
+import { DisabledUserComponent } from './disabled-user/disabled-user.component';
+import { UserProfileToolbarComponent } from './user-profile-toolbar/user-profile-toolbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    TasksComponent
+    TasksComponent,
+    DisabledUserComponent,
+    UserProfileToolbarComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    MatButtonModule,
+    MatIconModule,
     MatToolbarModule,
+    MatMenuModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

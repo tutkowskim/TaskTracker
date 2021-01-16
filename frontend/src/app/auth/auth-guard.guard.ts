@@ -10,11 +10,12 @@ export class AuthGuardGuard implements CanActivate {
   }
 
   public async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
-    const isAuthenticated = await this.authService.isAuthenticated$.toPromise();
-    if (isAuthenticated) {
-      return true;
-    } else {
+    if (!(await this.authService.isAuthenticated$.toPromise())) {
       return this.router.parseUrl('/login');
+    } else if(!(await this.authService.isPrivilegedUser$.toPromise())) {
+      return this.router.parseUrl('/disabled-user');
+    }else {
+      return true;
     }
   }
 }

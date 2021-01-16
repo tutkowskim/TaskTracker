@@ -7,6 +7,18 @@ app.get('/.auth/me', (req, res) => {
     clientPrincipal: null,
   };
 
+  const mockDisabledUser = {
+    clientPrincipal: { 
+      identityProvider: 'google',
+      userId: 'mockUserId',
+      userDetails: 'mpckuser@gmail.com',
+      userRoles: [
+        'anonymous',
+        'authenticated'
+      ],
+    },
+  };
+
   const mockUser = {
     clientPrincipal: { 
       identityProvider: 'google',
@@ -20,8 +32,9 @@ app.get('/.auth/me', (req, res) => {
     },
   };
 
-  res.json(noUser);
-  // res.json(mockUser);
+  // res.json(noUser);
+  res.json(mockUser);
+  // res.json(mockDisabledUser);
 });
 
 app.listen(port, () => {
