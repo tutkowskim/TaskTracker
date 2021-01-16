@@ -16,7 +16,7 @@ app.get('/.auth/me', (req, res) => {
         'user',
         'anonymous',
         'authenticated'
-      ] 
+      ],
     },
   };
 
@@ -26,4 +26,4 @@ app.get('/.auth/me', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Mock backend app listening at http://localhost:${port}`)
-})
+});
