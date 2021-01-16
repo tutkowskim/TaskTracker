@@ -1,21 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   AppBar,
-  Checkbox,
-  Fab,
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText,
+  CircularProgress,
   makeStyles,
   Toolbar,
   Typography,
 } from '@material-ui/core';
 
-import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
+import Tasks from './Tasks';
+import LoginButton from './LoginButton';
+import { useAuth0 } from '@auth0/auth0-react';
+import UserProfileAppBar from './UserProfileAppBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,81 +30,27 @@ const useStyles = makeStyles((theme) => ({
   appContent: {
     position: 'relative',
     height: 'calc(100% - 64px)',
-    overflow: 'scroll',
   },
-  tasksContainer: {
-    height: '100%',
-    width: '100%',
-    maxWidth: '1200px',
+  centeredContent: {
     margin: 'auto',
   },
-  tasksList: {
-    paddingRight: '75px',
-    paddingLeft: '75px',
-  },
-  fab: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-  }
 }));
 
 function App() {
   const classes = useStyles();
-  const [tasks, setTasks] = useState<any[]>([]);
-
-  const fetchTasks = () => {
-    fetch('/api/GetTasks')
-      .then(res => res.json())
-      .then(data => setTasks(data));
-  };
-
-  const addTask = (taskName: string) => {
-    fetch(`/api/AddTask?name=${taskName}`)
-      .then(() => fetchTasks());
-  };
-
-  const removeTask = (task: any) => {
-    fetch(`/api/DeleteTask?id=${task.id}`)
-      .then(() => fetchTasks());
-  };
-  const markTaskComplete = (task: any) => {
-    fetch(`/api/EditTask?id=${task.id}&complete=${!task.complete}`)
-      .then(() => fetchTasks());
-  };
-
-  // Load tasks when the component is mounted
-  useEffect(() => fetchTasks(), []);
+  const { isAuthenticated, isLoading } = useAuth0();
 
   return (
     <div className={classes.app}>
       <AppBar position='static'>
         <Toolbar className={classes.toolBar}>
           <Typography variant="h6" className={classes.title}>Todo Tracker</Typography>
+          { isAuthenticated && <UserProfileAppBar /> }
         </Toolbar>
       </AppBar>
       <div className={classes.appContent}>
-        <div className={classes.tasksContainer}>
-          <List className={classes.tasksList}>
-            { tasks.map(task => 
-              <ListItem key={String(task.id)} button onClick={() => markTaskComplete(task)}>
-                <ListItemIcon>
-                  <Checkbox edge='start' checked={task.complete}></Checkbox>
-                </ListItemIcon>
-                <ListItemText primary={task.name} />
-                <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="delete" onClick={() => removeTask(task)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            )}
-          </List>
-        </div>
+          { isLoading ? <CircularProgress /> : isAuthenticated ? <Tasks /> : <LoginButton /> }
       </div>
-      <Fab className={classes.fab} color='primary'>
-        <AddIcon onClick={() => addTask(`New Task ${Math.round(Math.random() * 1000)}`)} />
-      </Fab>
     </div>
   );
 }
