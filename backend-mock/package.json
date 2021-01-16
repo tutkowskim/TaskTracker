@@ -1,0 +1,13 @@
+{
+  "name": "backend-mock",
+  "version": "0.0.0",
+  "description": "A mock backend for testing the frontend without interacting with real azure services.",
+  "scripts": {
+    "start": "nodemon ./server.js"
+  },
+  "author": "Mark Tutkowski",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7"
+  }
+}

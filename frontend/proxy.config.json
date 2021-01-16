@@ -1,7 +1,7 @@
 {
   "/.auth/*": {
-    "target": "https://www.tasks.tutkowski.com",
-    "secure": true,
+    "target": "http://localhost:3030",
+    "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   }

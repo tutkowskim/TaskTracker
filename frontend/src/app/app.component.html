@@ -1,4 +1,4 @@
-{{ user$ | async | json }}
-{{ isAuthenticated$ | async }}
-<button (click)="login()">Login</button>
-<button (click)="logout()">Logout</button>
+<mat-toolbar color="primary">
+  <span>Task Tracker</span>
+</mat-toolbar>
+<router-outlet></router-outlet>

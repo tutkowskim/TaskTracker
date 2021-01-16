@@ -34,12 +34,9 @@ export class AuthService {
   public readonly userPrincipal$: Observable<UserPrincipal>;
   public readonly isAuthenticated$: Observable<boolean>;
 
-  private _userPrincipal$ = new BehaviorSubject<UserPrincipal>({ clientPrincipal: null });
-
   constructor(@Inject(DOCUMENT) private document: Document, private http: HttpClient) {
-    this.userPrincipal$ = this._userPrincipal$.asObservable();
+    this.userPrincipal$ = this.http.get<UserPrincipal>(this.getCurrentUserUrl);
     this.isAuthenticated$ = this.userPrincipal$.pipe(map(userPrincipal => !!userPrincipal.clientPrincipal ));
-    this.updateUserDetails();
   }
 
   public loginWithGoogle(postLoginRedirect: string = '/') {
@@ -48,11 +45,5 @@ export class AuthService {
 
   public logout(postLogoutRedirect: string = '/') {
     this.document.location.href = `${this.logoutUrl}?post_logout_redirect_uri =${postLogoutRedirect}`;
-  }
-
-  private updateUserDetails(): void {
-    this.http.get<UserPrincipal>(this.getCurrentUserUrl)
-      .pipe(take(1))
-      .subscribe(user => this._userPrincipal$.next(user));
   }
 }
