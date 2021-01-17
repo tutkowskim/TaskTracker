@@ -12,6 +12,7 @@ export class TasksService {
   private readonly getTasksUrl: string = '/api/GetTasks';
   private readonly addTaskUrl: string = '/api/AddTask';
   private readonly deleteTaskUrl: string = '/api/DeleteTask';
+  private readonly editTaskUrl: string = '/api/EditTask';
 
   public readonly tasks$: Observable<Task[]>;
   private readonly _tasks$: ReplaySubject<Task[]> = new ReplaySubject<Task[]>(1);
@@ -29,6 +30,12 @@ export class TasksService {
 
   public deleteTask(taskId: string) {
     this.http.post(this.deleteTaskUrl, { id: taskId }).pipe(take(1)).subscribe(() => {
+      this.updateTasks();
+    });
+  }
+
+  public editTask(taskId: string, taskName: string, taskComplete: boolean) {
+    this.http.post(this.editTaskUrl, { id: taskId, name: taskName, complete: taskComplete }).pipe(take(1)).subscribe(() => {
       this.updateTasks();
     });
   }

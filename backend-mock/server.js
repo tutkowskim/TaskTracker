@@ -8,7 +8,7 @@ const port = 3030;
 let idCounter = 0;
 let mockTasks = [
   { id: `${++idCounter}`, name: `New Task ${idCounter}`, userId: "mockUserId", complete: false },
-  { id: `${++idCounter}`, name: `New Task ${idCounter}`, userId: "mockUserId", complete: false },
+  { id: `${++idCounter}`, name: `New Task ${idCounter}`, userId: "mockUserId", complete: true },
   { id: `${++idCounter}`, name: `New Task ${idCounter}`, userId: "mockUserId", complete: false },
 ]
 
@@ -31,7 +31,6 @@ app.post('/api/AddTask', (req, res) => {
 
 app.post('/api/DeleteTask', (req, res) => {
   const id = (req.query.id || (req.body && req.body.id));
-  console.log(`Deleting task ${id}`)
   if (!id) {
     res.json('id not specified for task' );
     return;
@@ -46,7 +45,7 @@ app.post('/api/DeleteTask', (req, res) => {
   res.json(`Deleted task with id: ${id}`);
 });
 
-app.get('/api/EditTask', (req, res) => {
+app.post('/api/EditTask', (req, res) => {
   const id = (req.query.id || (req.body && req.body.id));
   const name = (req.query.name || (req.body && req.body.name));
   const complete = (req.query.complete || (req.body && req.body.complete));
@@ -54,10 +53,10 @@ app.get('/api/EditTask', (req, res) => {
   const task = mockTasks.find(task => task.id === id);
   if (task) {
     if (name) task.name = name;
-    if (complete) task.complete = (complete === 'true');
-    res.send(`Task ${id} updated`);
+    if (complete !== undefined) task.complete = (complete === true || complete === 'true');
+    res.json(`Task ${id} updated`);
   } else {
-    res.send(`Task not found for id: ${id}`);
+    res.json(`Task not found for id: ${id}`);
   }
 });
 

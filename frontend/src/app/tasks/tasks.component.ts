@@ -23,4 +23,8 @@ export class TasksComponent {
     event.stopPropagation();
     this.tasksService.deleteTask(task.id);
   }
+
+  public toggleTaskComplete(task: Task) {
+    this.tasksService.editTask(task.id, task.name, !task.complete);
+  }
 }
