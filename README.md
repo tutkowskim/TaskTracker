@@ -10,7 +10,7 @@ A simple task tracking application created created to explore building a serverl
       "IsEncrypted": false,
       "Values": {
         "FUNCTIONS_WORKER_RUNTIME": "node",
-        "AzureWebJobsStorage": "",
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
         "COSMOSDB_ENDPOINT": "<Database URI>",
         "COSMOSDB_KEY": "<Database Key>",
         "COSMOSDB_DATABASE_ID": "<Database ID>",
