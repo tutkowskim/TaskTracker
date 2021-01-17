@@ -21,7 +21,7 @@ export class TasksComponent {
 
   public deleteTask(event: MouseEvent, task: Task) {
     event.stopPropagation();
-    this.tasksService.deleteTask(task.id);
+    this.tasksService.deleteTask(task);
   }
 
   public toggleTaskComplete(task: Task) {

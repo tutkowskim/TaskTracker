@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable, ReplaySubject, throwError } from 'rxjs';
+import { catchError, take } from 'rxjs/operators';
 
 import { Task } from './task';
 
@@ -17,31 +18,57 @@ export class TasksService {
   public readonly tasks$: Observable<Task[]>;
   private readonly _tasks$: ReplaySubject<Task[]> = new ReplaySubject<Task[]>(1);
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.tasks$ = this._tasks$.asObservable();
     this.updateTasks();
   }
 
   public addTask(taskName: string): void {
-    this.http.post(this.addTaskUrl, { name: taskName }).pipe(take(1)).subscribe(() => {
+    this.http.post(this.addTaskUrl, { name: taskName })
+    .pipe(take(1))
+    .pipe(catchError(() => {
+      this.snackBar.open(`Failed to add task ${taskName}`, undefined, { duration: 2000});
+      return throwError('Something bad happened; please try again later.');
+    }))
+    .subscribe(() => {
+      this.snackBar.open(`Added task ${taskName}`, undefined, { duration: 2000});
       this.updateTasks();
     });
   }
 
-  public deleteTask(taskId: string) {
-    this.http.post(this.deleteTaskUrl, { id: taskId }).pipe(take(1)).subscribe(() => {
+  public deleteTask(task: Task) {
+    this.http.post(this.deleteTaskUrl, { id: task.id })
+    .pipe(take(1))
+    .pipe(catchError(() => {
+      this.snackBar.open(`Failed to delete task ${task.name}`, undefined, { duration: 2000});
+      return throwError('Something bad happened; please try again later.');
+    }))
+    .subscribe(() => {
+      this.snackBar.open(`Deleted task ${task.name}`, undefined, { duration: 2000});
       this.updateTasks();
     });
   }
 
   public editTask(taskId: string, taskName: string, taskComplete: boolean) {
-    this.http.post(this.editTaskUrl, { id: taskId, name: taskName, complete: taskComplete }).pipe(take(1)).subscribe(() => {
+    this.http.post(this.editTaskUrl, { id: taskId, name: taskName, complete: taskComplete })
+    .pipe(take(1))
+    .pipe(catchError(() => {
+      this.snackBar.open(`Failed to edit task ${taskName}`, undefined, { duration: 2000});
+      return throwError('Something bad happened; please try again later.');
+    }))
+    .subscribe(() => {
       this.updateTasks();
     });
   }
 
   private updateTasks(): void {
-    this.http.get<Task[]>(this.getTasksUrl).pipe(take(1)).subscribe(tasks => {
+    this.http.get<Task[]>(this.getTasksUrl)
+    .pipe(take(1))
+    .pipe(catchError(() => {
+      this.snackBar.open(`Failed to update tasks`, undefined, { duration: 2000});
+      return throwError('Something bad happened; please try again later.');
+    }))
+    .subscribe(tasks => {
       this._tasks$.next(tasks);
     });
   }
