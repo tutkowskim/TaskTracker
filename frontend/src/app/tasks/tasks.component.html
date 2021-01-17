@@ -1,1 +1,13 @@
-<p>Tasks component</p>
+<div class='task_container'>
+  <mat-selection-list class='task_container__task_list'>
+    <mat-list-option *ngFor='let task of (tasks$ | async)' checkboxPosition='before'>
+      <span class='task_container__task_name'>{{ task.name }}</span>
+      <button class='task_container__task_delete_icon' mat-button (click)='deleteTask($event, task)'>
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-option>
+  </mat-selection-list>
+</div>
+<button class='add_task_btn' mat-fab color="primary" aria-label="Add task" (click)='addTask()'>
+  <mat-icon>add</mat-icon>
+</button>
