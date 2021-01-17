@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, ReplaySubject, throwError } from 'rxjs';
-import { catchError, take } from 'rxjs/operators';
+import { catchError, retry, take } from 'rxjs/operators';
 
 import { Task } from './task';
 
@@ -63,7 +63,7 @@ export class TasksService {
 
   private updateTasks(): void {
     this.http.get<Task[]>(this.getTasksUrl)
-    .pipe(take(1))
+    .pipe(retry(3), take(1))
     .pipe(catchError(() => {
       this.snackBar.open(`Failed to update tasks`, undefined, { duration: 2000});
       return throwError('Something bad happened; please try again later.');
