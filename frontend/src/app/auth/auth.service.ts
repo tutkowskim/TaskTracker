@@ -39,6 +39,6 @@ export class AuthService {
   }
 
   public logout(postLogoutRedirect: string = '/'): void {
-    this.document.location.href = `${this.logoutUrl}?post_logout_redirect_uri =${postLogoutRedirect}`;
+    this.document.location.href = `${this.logoutUrl}?post_logout_redirect_uri=${postLogoutRedirect}`;
   }
 }
