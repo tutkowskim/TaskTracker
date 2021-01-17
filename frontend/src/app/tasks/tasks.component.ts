@@ -14,17 +14,17 @@ export class TasksComponent {
     this.tasks$ = this.tasksService.tasks$;
   }
 
-  public addTask() {
+  public addTask(): void {
     const fakeTaskName: string = new Date().toLocaleString();
     this.tasksService.addTask(`New Task ${fakeTaskName}`);
   }
 
-  public deleteTask(event: MouseEvent, task: Task) {
+  public deleteTask(event: MouseEvent, task: Task): void {
     event.stopPropagation();
     this.tasksService.deleteTask(task);
   }
 
-  public toggleTaskComplete(task: Task) {
+  public toggleTaskComplete(task: Task): void {
     this.tasksService.editTask(task.id, task.name, !task.complete);
   }
 }

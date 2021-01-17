@@ -28,8 +28,10 @@ export class AuthService {
 
   constructor(@Inject(DOCUMENT) private document: Document, private http: HttpClient) {
     this.userPrincipal$ = this.http.get<UserPrincipal>(this.getCurrentUserUrl);
-    this.isAuthenticated$ = this.userPrincipal$.pipe(map(userPrincipal => !!userPrincipal.clientPrincipal ));
-    this.isPrivilegedUser$ = this.userPrincipal$.pipe(map(userPrincipal => userPrincipal.clientPrincipal?.userRoles?.includes('user') || false ));
+    this.isAuthenticated$ = this.userPrincipal$
+      .pipe(map(userPrincipal => !!userPrincipal.clientPrincipal ));
+    this.isPrivilegedUser$ = this.userPrincipal$
+      .pipe(map(userPrincipal => userPrincipal.clientPrincipal?.userRoles?.includes('user') || false ));
   }
 
   public loginWithGoogle(postLoginRedirect: string = '/'): void {

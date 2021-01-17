@@ -16,10 +16,10 @@ export class TasksService {
   private readonly editTaskUrl: string = '/api/EditTask';
 
   public readonly tasks$: Observable<Task[]>;
-  private readonly _tasks$: ReplaySubject<Task[]> = new ReplaySubject<Task[]>(1);
+  private readonly tasksSubject$: ReplaySubject<Task[]> = new ReplaySubject<Task[]>(1);
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
-    this.tasks$ = this._tasks$.asObservable();
+    this.tasks$ = this.tasksSubject$.asObservable();
     this.updateTasks();
   }
 
@@ -36,7 +36,7 @@ export class TasksService {
     });
   }
 
-  public deleteTask(task: Task) {
+  public deleteTask(task: Task): void {
     this.http.post(this.deleteTaskUrl, { id: task.id })
     .pipe(take(1))
     .pipe(catchError(() => {
@@ -49,7 +49,7 @@ export class TasksService {
     });
   }
 
-  public editTask(taskId: string, taskName: string, taskComplete: boolean) {
+  public editTask(taskId: string, taskName: string, taskComplete: boolean): void {
     this.http.post(this.editTaskUrl, { id: taskId, name: taskName, complete: taskComplete })
     .pipe(take(1))
     .pipe(catchError(() => {
@@ -69,7 +69,7 @@ export class TasksService {
       return throwError('Something bad happened; please try again later.');
     }))
     .subscribe(tasks => {
-      this._tasks$.next(tasks);
+      this.tasksSubject$.next(tasks);
     });
   }
 }

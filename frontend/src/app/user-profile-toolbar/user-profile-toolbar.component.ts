@@ -18,7 +18,7 @@ export class UserProfileToolbarComponent {
     this.userDisplayName$ = this.authService.userPrincipal$.pipe(map(up => up.clientPrincipal?.userDetails || ''));
   }
 
-  public logout() {
+  public logout(): void {
     this.authService.logout();
   }
 }
