@@ -14,7 +14,7 @@ export interface User {
 export const httpAuthorizationTrigger = async (context: Context, req: HttpRequest, onAuthorized: (context: Context, req: HttpRequest, clientPrincipal: ClientPrincipal) => Promise<void>): Promise<void> => {
   const header = req.headers["x-ms-client-principal"];
   if (!header) {
-    context.res = { body: { message: `Unauthorized: Missing client-principal` }, status: 401 };
+    context.res = { body: { message: `Unauthorized: Missing client-principal ${JSON.stringify(req)}` }, status: 401 };
   }
 
   const encoded = Buffer.from(header, "base64");
@@ -23,6 +23,6 @@ export const httpAuthorizationTrigger = async (context: Context, req: HttpReques
   if (clientPrincipal && clientPrincipal.clientPrincipal && clientPrincipal.clientPrincipal.userId) {
     await onAuthorized(context, req, clientPrincipal);
   } else {
-    context.res = { body: { message: `Unauthorized` }, status: 401 };
+    context.res = { body: { message: `Unauthorized ${JSON.stringify(req)}` }, status: 401 };
   }
 }
