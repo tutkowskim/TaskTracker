@@ -3,7 +3,7 @@ import { AzureFunction, Context, HttpRequest } from "@azure/functions"
 import { cosmosDbConfig } from "../config";
 import { httpAuthorizationTrigger } from "../httpAuthorizationTrigger";
 
-const httpTrigger: AzureFunction = async (context: Context, req: HttpRequest) => await httpAuthorizationTrigger(context, req, async (context, req, clientPrincipal) => {
+const httpTrigger: AzureFunction = async (context: Context, req: HttpRequest) => await httpAuthorizationTrigger(context, req, async (context, req, user) => {
   const id = (req.query.id || (req.body && req.body.id));
   if (!id) {
     context.res = { body: { message:  'id not specified' }, status: 500 };
@@ -18,7 +18,7 @@ const httpTrigger: AzureFunction = async (context: Context, req: HttpRequest) =>
 
   try {
     const taskResource = (await container.item(id, id).read()).resource;
-    if (taskResource.userId === clientPrincipal.clientPrincipal.userId) {
+    if (taskResource.userId === user.userId) {
       await container.item(id, id).delete();
       context.res = { body: { message: `Deleted task with id: ${id}` }, status: 200 };
     } else {

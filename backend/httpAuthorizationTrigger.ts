@@ -1,8 +1,4 @@
 import { Context, HttpRequest } from "@azure/functions";
-
-export interface ClientPrincipal {
-  clientPrincipal: User | null;
-}
   
 export interface User {
   identityProvider: string;
@@ -11,18 +7,26 @@ export interface User {
   userRoles: string[];
 }
   
-export const httpAuthorizationTrigger = async (context: Context, req: HttpRequest, onAuthorized: (context: Context, req: HttpRequest, clientPrincipal: ClientPrincipal) => Promise<void>): Promise<void> => {
+/**
+ * Get the user passed to the function from azure static web apps.
+ * 
+ * Documentation: https://docs.microsoft.com/en-us/azure/static-web-apps/user-information?tabs=javascript
+ * @param context 
+ * @param req 
+ * @param onAuthorized 
+ */
+export const httpAuthorizationTrigger = async (context: Context, req: HttpRequest, onAuthorized: (context: Context, req: HttpRequest, user: User) => Promise<void>): Promise<void> => {
   const header = req.headers["x-ms-client-principal"];
   if (!header) {
-    context.res = { body: { message: `Unauthorized: Missing client-principal ${JSON.stringify(req)}` }, status: 401 };
+    context.res = { body: { message: `Unauthorized: Missing client-principal` }, status: 401 };
   }
 
   const encoded = Buffer.from(header, "base64");
   const decoded = encoded.toString("ascii");
-  const clientPrincipal = JSON.parse(decoded) as ClientPrincipal;
-  if (clientPrincipal && clientPrincipal.clientPrincipal && clientPrincipal.clientPrincipal.userId) {
-    await onAuthorized(context, req, clientPrincipal);
+  const user = JSON.parse(decoded) as User;
+  if (user) {
+    await onAuthorized(context, req, user);
   } else {
-    context.res = { body: { message: `Unauthorized ${JSON.stringify(clientPrincipal)}` }, status: 401 };
+    context.res = { body: { message: `Unauthorized` }, status: 401 };
   }
 }

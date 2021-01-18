@@ -3,7 +3,7 @@ import { AzureFunction, Context, HttpRequest } from "@azure/functions"
 import { cosmosDbConfig } from "../config";
 import { httpAuthorizationTrigger } from '../httpAuthorizationTrigger';
 
-const httpTrigger: AzureFunction = async (context: Context, req: HttpRequest) => await httpAuthorizationTrigger(context, req, async (context, req, clientPrincipal) => {
+const httpTrigger: AzureFunction = async (context: Context, req: HttpRequest) => await httpAuthorizationTrigger(context, req, async (context, req, user) => {
   const id = (req.query.id || (req.body && req.body.id));
   const name = (req.query.name || (req.body && req.body.name));
   const complete = (req.query.complete || (req.body && req.body.complete));
@@ -18,7 +18,7 @@ const httpTrigger: AzureFunction = async (context: Context, req: HttpRequest) =>
     const item = container.item(id, id);
     const updatedValue = (await item.read()).resource;
 
-    if (updatedValue.userId === clientPrincipal.clientPrincipal.userId) {
+    if (updatedValue.userId === user.userId) {
     if (name !== undefined) updatedValue.name = name;
     if (complete !== undefined) updatedValue.complete = (complete == true || complete === 'true');
       await item.replace(updatedValue);
