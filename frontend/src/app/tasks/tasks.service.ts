@@ -26,7 +26,8 @@ export class TasksService {
   public addTask(taskName: string): void {
     this.http.post(this.addTaskUrl, { name: taskName })
     .pipe(take(1))
-    .pipe(catchError(() => {
+    .pipe(catchError((error) => {
+      console.error(error);
       this.snackBar.open(`Failed to add task ${taskName}`, undefined, { duration: 2000});
       return throwError('Something bad happened; please try again later.');
     }))
@@ -39,7 +40,8 @@ export class TasksService {
   public deleteTask(task: Task): void {
     this.http.post(this.deleteTaskUrl, { id: task.id })
     .pipe(take(1))
-    .pipe(catchError(() => {
+    .pipe(catchError((error) => {
+      console.error(error);
       this.snackBar.open(`Failed to delete task ${task.name}`, undefined, { duration: 2000});
       return throwError('Something bad happened; please try again later.');
     }))
@@ -52,7 +54,8 @@ export class TasksService {
   public editTask(taskId: string, taskName: string, taskComplete: boolean): void {
     this.http.post(this.editTaskUrl, { id: taskId, name: taskName, complete: taskComplete })
     .pipe(take(1))
-    .pipe(catchError(() => {
+    .pipe(catchError((error) => {
+      console.error(error);
       this.snackBar.open(`Failed to edit task ${taskName}`, undefined, { duration: 2000});
       return throwError('Something bad happened; please try again later.');
     }))
@@ -64,7 +67,8 @@ export class TasksService {
   private updateTasks(): void {
     this.http.get<Task[]>(this.getTasksUrl)
     .pipe(retry(3), take(1))
-    .pipe(catchError(() => {
+    .pipe(catchError((error) => {
+      console.error(error);
       this.snackBar.open(`Failed to update tasks`, undefined, { duration: 2000});
       return throwError('Something bad happened; please try again later.');
     }))

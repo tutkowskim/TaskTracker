@@ -5,7 +5,7 @@ import { cosmosDbConfig } from "../config";
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
     const id = (req.query.id || (req.body && req.body.id));
     if (!id) {
-        context.res = { body: 'id not specified', status: 500 };
+        context.res = { body: { message:  'id not specified' }, status: 500 };
         return;
     }
 
@@ -17,10 +17,10 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
     try {
         await container.item(id, id).delete();
-        context.res = { body: `Deleted task with id: ${id}`, status: 200 };
+        context.res = { body: { message: `Deleted task with id: ${id}` }, status: 200 };
     } catch (e) {
         console.log(e);
-        context.res = { body: `Failed to delete task with id: ${id}`, status: 500 };
+        context.res = { body: { message:  `Failed to delete task with id: ${id}` }, status: 500 };
     }
 };
 

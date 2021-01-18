@@ -18,14 +18,14 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         const updatedValue = (await item.read()).resource;
         
         if (name !== undefined) updatedValue.name = name;
-        if (complete !== undefined) updatedValue.complete = (complete == 'true');
+        if (complete !== undefined) updatedValue.complete = (complete == true || complete === 'true');
 
         await item.replace(updatedValue);
 
-        context.res = { body: `Deleted task with id: ${id}`, status: 200 };
+        context.res = { body: { message:  `Deleted task with id: ${id}` }, status: 200 };
     } catch (e) {
         console.log(e);
-        context.res = { body: `Failed to delete task with id: ${id}`, status: 500 };
+        context.res = { body: { message: `Failed to delete task with id: ${id}` }, status: 500 };
     }
 };
 
