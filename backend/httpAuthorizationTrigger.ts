@@ -13,6 +13,10 @@ export interface User {
   
 export const httpAuthorizationTrigger = async (context: Context, req: HttpRequest, onAuthorized: (context: Context, req: HttpRequest, clientPrincipal: ClientPrincipal) => Promise<void>): Promise<void> => {
   const header = req.headers["x-ms-client-principal"];
+  if (!header) {
+    context.res = { body: { message: `Unauthorized: Missing client-principal` }, status: 401 };
+  }
+
   const encoded = Buffer.from(header, "base64");
   const decoded = encoded.toString("ascii");
   const clientPrincipal = JSON.parse(decoded) as ClientPrincipal;
