@@ -5,6 +5,7 @@
     <mat-icon aria-hidden='false' aria-label='arrow_drop_Down'>arrow_drop_down</mat-icon>
   </button>
   <mat-menu #menu='matMenu'  xPosition="before">
+    <button mat-menu-item (click)=openProfile()>Profile</button>
     <button mat-menu-item (click)=logout()>Logout</button>
   </mat-menu>
 </div>
