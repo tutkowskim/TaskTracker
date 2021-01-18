@@ -1,0 +1,20 @@
+{
+  "routes": [
+    {
+      "route": "/api/*",
+      "allowedRoles": ["user"]
+    },
+    {
+      "route": "/",
+      "serve": "/index.html"
+    },
+    {
+      "route": "/login",
+      "serve": "/index.html"
+    },
+    {
+      "route": "/disabled-user",
+      "serve": "/index.html"
+    }
+  ]
+}
