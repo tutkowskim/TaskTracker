@@ -23,6 +23,6 @@ export const httpAuthorizationTrigger = async (context: Context, req: HttpReques
   if (clientPrincipal && clientPrincipal.clientPrincipal && clientPrincipal.clientPrincipal.userId) {
     await onAuthorized(context, req, clientPrincipal);
   } else {
-    context.res = { body: { message: `Unauthorized ${JSON.stringify(req)}` }, status: 401 };
+    context.res = { body: { message: `Unauthorized ${JSON.stringify(clientPrincipal)}` }, status: 401 };
   }
 }
