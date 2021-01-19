@@ -9,6 +9,8 @@
   display: flex;
 
   &__title {
+    color: inherit;
+    text-decoration: none;
     flex: 1;
   }
 }
