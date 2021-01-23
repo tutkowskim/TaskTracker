@@ -1,14 +1,22 @@
-<div class='task_container'>
-  <mat-action-list class='task_container__task_list' cdkDropList (cdkDropListDropped)="drop($event)">
-    <mat-list-item *ngFor='let task of (tasks$ | async)' (click)=toggleTaskComplete(task) cdkDrag>
-      <mat-checkbox [checked]='task.complete' [disabled]='true'></mat-checkbox>
-      <span class='task_container__task_name'>{{ task.name }}</span>
-      <button class='task_container__task_delete_icon' mat-button (click)='deleteTask($event, task)'>
-        <mat-icon>delete</mat-icon>
+<mat-action-list class='task_list' cdkDropList (cdkDropListDropped)='drop($event)'>
+  <mat-list-item [disableRipple]='true'>
+    <mat-form-field class='task_list__add_task_input'>
+      <mat-label>Add task</mat-label>
+      <input matInput type='text' [(ngModel)]='newTaskValue' (keyup.enter)='addTask()'>
+      <button mat-button *ngIf='newTaskValue' matSuffix mat-icon-button aria-label='Clear' (click)='newTaskValue=""'>
+        <mat-icon>close</mat-icon>
       </button>
-    </mat-list-item>
-  </mat-action-list>
-</div>
-<button class='add_task_btn' mat-fab color="primary" aria-label="Add task" (click)='addTask()'>
-  <mat-icon>add</mat-icon>
-</button>
+    </mat-form-field>
+    <button class='task_container__task_delete_icon' mat-button (click)='addTask()'>
+      <mat-icon>add</mat-icon>
+    </button>
+    <mat-divider></mat-divider>
+  </mat-list-item>
+  <mat-list-item *ngFor='let task of (tasks$ | async)' (click)=toggleTaskComplete(task) cdkDrag>
+    <mat-checkbox [checked]='task.complete' [disabled]='true'></mat-checkbox>
+    <span class='task_container__task_name'>{{ task.name }}</span>
+    <button class='task_container__task_delete_icon' mat-button (click)='deleteTask($event, task)'>
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-list-item>
+</mat-action-list>

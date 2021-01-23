@@ -1,13 +1,12 @@
-.task_container {
+.task_list {
   height: 100%;
   width: 100%;
   max-width: 1200px;
   margin: auto;
 }
 
-.task_container__task_list {
-  padding-left: 75px;
-  padding-right: 75px;
+.task_list__add_task_input {
+  flex: 1;
 }
 
 :host ::ng-deep .task_container__task_list .mat-list-text {
@@ -21,10 +20,4 @@
 
 .task_container__task_delete_icon {
   line-height: inherit;
-}
-
-.add_task_btn {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
 }

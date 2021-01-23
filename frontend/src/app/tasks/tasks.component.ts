@@ -10,14 +10,17 @@ import { TasksService } from './tasks.service';
 })
 export class TasksComponent {
   public readonly tasks$;
+  public newTaskValue: string = '';
 
   constructor(private tasksService: TasksService) {
     this.tasks$ = this.tasksService.tasks$;
   }
 
   public addTask(): void {
-    const fakeTaskName: string = new Date().toLocaleString();
-    this.tasksService.addTask(`New Task ${fakeTaskName}`);
+    if (this.newTaskValue) {
+      this.tasksService.addTask(this.newTaskValue);
+      this.newTaskValue = '';
+    }
   }
 
   public deleteTask(event: MouseEvent, task: Task): void {
