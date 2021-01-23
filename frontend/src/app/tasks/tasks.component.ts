@@ -1,5 +1,6 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Task } from './task';
 import { TasksService } from './tasks.service';
 
@@ -9,11 +10,13 @@ import { TasksService } from './tasks.service';
   styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent {
-  public readonly tasks$;
+  public readonly tasks$: Observable<Task[]>;
+  public readonly isLoading$: Observable<boolean>;
   public newTaskValue: string = '';
 
   constructor(private tasksService: TasksService) {
     this.tasks$ = this.tasksService.tasks$;
+    this.isLoading$ =  this.tasksService.loading$;
   }
 
   public addTask(): void {

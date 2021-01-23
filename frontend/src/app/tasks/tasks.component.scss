@@ -20,3 +20,10 @@
 .task_container__task_icon {
   line-height: inherit;
 }
+
+.loading_spinner {
+  position: relative;
+  margin-top: calc(50vh - 100px);
+  margin-left: 50%;
+  margin-right: 50%;
+}

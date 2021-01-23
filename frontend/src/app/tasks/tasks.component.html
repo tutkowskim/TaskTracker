@@ -1,4 +1,4 @@
-<mat-action-list class='task_list' cdkDropList (cdkDropListDropped)='drop($event)'>
+<mat-action-list *ngIf='!(isLoading$ | async); else loading' class='task_list' cdkDropList (cdkDropListDropped)='drop($event)'>
   <mat-list-item [disableRipple]='true'>
     <mat-form-field class='task_list__add_task_input'>
       <mat-label>Add task</mat-label>
@@ -20,3 +20,6 @@
     </button>
   </mat-list-item>
 </mat-action-list>
+<ng-template #loading>
+  <mat-spinner class='loading_spinner'></mat-spinner>
+</ng-template>
