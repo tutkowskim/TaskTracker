@@ -12,7 +12,13 @@ const httpTrigger: AzureFunction = async (context: Context, req: HttpRequest) =>
     const container = database.container(containerId);
 
     const resource: UserTasks = { id: user.userId, tasks: req.body };
-    await container.items.create(resource);
+
+    try {
+        await container.item(user.userId, user.userId).replace(resource);
+    } catch {
+        await container.items.create(resource);
+    }
+    
     context.res = { body: { message: 'Update complete' }, status: 200 };
 });
 
