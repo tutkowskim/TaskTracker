@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -38,6 +39,7 @@ import { ProfileComponent } from './profile/profile.component';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    DragDropModule,
     MatButtonModule,
     MatChipsModule,
     MatCheckboxModule,

@@ -7,57 +7,20 @@ const port = 3030;
 
 let idCounter = 0;
 let mockTasks = [
-  { id: `${++idCounter}`, name: `New Task ${idCounter}`, userId: "mockUserId", complete: false },
-  { id: `${++idCounter}`, name: `New Task ${idCounter}`, userId: "mockUserId", complete: true },
-  { id: `${++idCounter}`, name: `New Task ${idCounter}`, userId: "mockUserId", complete: false },
+  { name: `New Task ${idCounter}`, complete: false },
+  { name: `New Task ${idCounter}`, complete: true },
+  { name: `New Task ${idCounter}`, complete: false },
 ]
 
 app.get('/api/GetTasks', (req, res) => {
   res.json(mockTasks);
 });
 
-app.post('/api/AddTask', (req, res) => {
-  const name = (req.query.name || (req.body && req.body.name));
-  if (name) {
-    mockTasks = [
-      ...mockTasks,
-      { id: `${++idCounter}`, name, userId: "mockUserId", complete: false },
-    ];
-    res.json({});
-  } else {
-    res.json({});
-  }
-});
-
-app.post('/api/DeleteTask', (req, res) => {
-  const id = (req.query.id || (req.body && req.body.id));
-  if (!id) {
-    res.json('id not specified for task' );
-    return;
-  }
-
-  if (!mockTasks.find(task => task.id === id)) {
-    res.json(`Task not found for id: ${id}`);
-    return;
-  }
-
-  mockTasks = mockTasks.filter(task => task.id !== id);
-  res.json(`Deleted task with id: ${id}`);
-});
-
-app.post('/api/EditTask', (req, res) => {
-  const id = (req.query.id || (req.body && req.body.id));
-  const name = (req.query.name || (req.body && req.body.name));
-  const complete = (req.query.complete || (req.body && req.body.complete));
-
-  const task = mockTasks.find(task => task.id === id);
-  if (task) {
-    if (name) task.name = name;
-    if (complete !== undefined) task.complete = (complete === true || complete === 'true');
-    res.json(`Task ${id} updated`);
-  } else {
-    res.json(`Task not found for id: ${id}`);
-  }
+app.post('/api/SetTasks', (req, res) => {
+  const tasks = req.body;
+  mockTasks = tasks;
+  console.log(mockTasks)
+  res.json('Set Tasks');
 });
 
 app.get('/.auth/me', (req, res) => {

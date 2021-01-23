@@ -1,3 +1,4 @@
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import { Task } from './task';
 import { TasksService } from './tasks.service';
@@ -25,6 +26,10 @@ export class TasksComponent {
   }
 
   public toggleTaskComplete(task: Task): void {
-    this.tasksService.editTask(task.id, task.name, !task.complete);
+    this.tasksService.toggleTaskComplete(task);
+  }
+
+  public drop(event: CdkDragDrop<string[]>) {
+    this.tasksService.rearrangeTasks(event.previousIndex, event.currentIndex);
   }
 }
