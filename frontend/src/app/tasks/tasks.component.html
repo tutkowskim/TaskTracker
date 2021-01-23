@@ -7,7 +7,7 @@
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
-    <button class='task_container__task_delete_icon' mat-button (click)='addTask()'>
+    <button class='task_container__task_icon' mat-button (click)='addTask()'>
       <mat-icon>add</mat-icon>
     </button>
     <mat-divider></mat-divider>
@@ -15,7 +15,7 @@
   <mat-list-item *ngFor='let task of (tasks$ | async)' (click)=toggleTaskComplete(task) cdkDrag>
     <mat-checkbox [checked]='task.complete' [disabled]='true'></mat-checkbox>
     <span class='task_container__task_name'>{{ task.name }}</span>
-    <button class='task_container__task_delete_icon' mat-button (click)='deleteTask($event, task)'>
+    <button class='task_container__task_icon' mat-button (click)='deleteTask($event, task)'>
       <mat-icon>delete</mat-icon>
     </button>
   </mat-list-item>
