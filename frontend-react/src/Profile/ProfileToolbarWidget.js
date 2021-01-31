@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
+import useWindowSize from '../useWindowSize';
 import useAuth from '../auth/useAuth'; 
 import logout from '../auth/logout';
 
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 function ProfileToolbarWidget() {
   const classes = useStyles();
   const history = useHistory();
+  const windowSize = useWindowSize();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { isLoadingAuthStatus, isAuthenticated, user } = useAuth();
 
@@ -37,7 +39,7 @@ function ProfileToolbarWidget() {
     <>
       <Button color="inherit" onClick={handleClick}>
         <AccountCircleIcon />
-        <span className={classes.userName}>{ user.userDetails }</span>
+        { windowSize.width > 600 && <span className={classes.userName}>{ user.userDetails }</span> }
         <ArrowDropDownIcon />
       </Button>
       <Menu id="menu" anchorEl={anchorEl} anchorOrigin={{ vertical: 'bottom', horizontal: 'right'}} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
