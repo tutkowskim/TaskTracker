@@ -24,7 +24,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-  }
+  },
+  profileHeader: {
+    paddingTop: '5px',
+  },
 }));
 
 function Profile() {
@@ -42,7 +45,7 @@ function Profile() {
 
   return (
     <>
-      <Typography variant="h6">Profile</Typography>
+      <Typography className={classes.profileHeader} variant="h6">Profile</Typography>
       <List component="nav" className={classes.root} aria-label="mailbox folders">
       <Divider />
         <ListItem>
@@ -54,11 +57,11 @@ function Profile() {
         </ListItem>
         <Divider />
         <ListItem>
-          <ListItemText primary="Identity Provider"  secondary={user.identityProvider} />
+          <ListItemText primary="Identity Provider" secondary={user.identityProvider} />
         </ListItem>
         <Divider />
         <ListItem>
-          <ListItemText primary="Roles"  secondary={ user.userRoles.join(', ') } />
+          <ListItemText primary="Roles" secondary={user.userRoles.join(', ')} />
         </ListItem>
       </List>
     </>
