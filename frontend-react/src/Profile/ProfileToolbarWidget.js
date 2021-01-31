@@ -7,16 +7,24 @@ import { makeStyles } from '@material-ui/core/styles';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
+import useAuth from '../auth/useAuth'; 
+import logout from '../auth/logout';
+
 const useStyles = makeStyles((theme) => ({
   userName: {
     paddingLeft: '5px',
-  }
+  },
 }));
 
 function ProfileToolbarWidget() {
   const classes = useStyles();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { isLoadingAuthStatus, isAuthenticated, user } = useAuth();
+
+  if (isLoadingAuthStatus || !isAuthenticated) {
+    return <></>;
+  }
 
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
@@ -29,12 +37,12 @@ function ProfileToolbarWidget() {
     <>
       <Button color="inherit" onClick={handleClick}>
         <AccountCircleIcon />
-        <span className={classes.userName}>mockuser@gmail.com</span>
+        <span className={classes.userName}>{ user.userDetails }</span>
         <ArrowDropDownIcon />
       </Button>
       <Menu id="menu" anchorEl={anchorEl} anchorOrigin={{ vertical: 'bottom', horizontal: 'right'}} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem onClick={handleOpenProfile}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={logout}>Logout</MenuItem>
       </Menu>
     </>
   )
