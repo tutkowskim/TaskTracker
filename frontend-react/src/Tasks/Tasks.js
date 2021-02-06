@@ -84,6 +84,12 @@ function Tasks() {
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      onAddTask();
+    }
+  }
+
   const onRemoveTask = (task) => setTasks(tasks.filter((t) => t !== task));
 
   const onToggleTaskCompletion = (task) => {
@@ -104,7 +110,7 @@ function Tasks() {
   return (
     <div className={classes.root}>
       <div className={classes.addTaskRow}>
-        <TextField className={classes.addTaskRowText} label="New Task" value={newTaskName} onChange={(event) => setNewTaskName(event.target.value)} />
+        <TextField className={classes.addTaskRowText} label="New Task" value={newTaskName} onChange={(event) => setNewTaskName(event.target.value)} onKeyDown={handleKeyDown} />
         <Button color="primary" onClick={onAddTask}>Add</Button>
       </div>
       <Divider />
