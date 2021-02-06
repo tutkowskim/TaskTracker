@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -6,7 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import useInterval from '../useInterval';
+import useTasks from './useTasks';
 import TaskListItem from './TaskListItem';
 
 const useStyles = makeStyles((theme) => ({
@@ -33,38 +33,6 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
   },
 }));
-
-const useTasks = () => {
-  const [areTasksLoading, setAreTasksLoading] = useState(true);
-  const [tasks, setTasks] = useState([{ name: 'Initial Task', complete: true }]);
-
-  const fetchTasks = async () => {
-    const response = await fetch('/api/GetTasks');
-    const data = await response.json();
-    setTasks(data);
-    setAreTasksLoading(false);
-  }
-
-  // Fetch initial data
-  useEffect(() => fetchTasks(), []);
-
-  // Refresh the data
-  useInterval(() => fetchTasks(), 5000);
-
-  const setTasksWrapper = (updatedTasks) => {
-    //Update the state
-    setTasks(updatedTasks);
-
-    // Post the new tasks back, so that they are saved
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedTasks)
-    };
-    fetch('/api/SetTasks', requestOptions);
-  }
-  return [areTasksLoading, tasks, setTasksWrapper];
-}
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -100,21 +68,9 @@ function Tasks() {
   };
 
   const onDragEnd = (result) => {
-    if (!result.destination) {
-      return;
-    }
-
-    if (result.destination.index === result.source.index) {
-      return;
-    }
-
-    const reorderedTasks = reorder(
-      tasks,
-      result.source.index,
-      result.destination.index
-    );
-
-    setTasks([...reorderedTasks]);
+    if (!result.destination) return;
+    if (result.destination.index === result.source.index) return;
+    setTasks(reorder(tasks, result.source.index, result.destination.index));
   }
 
   if (areTasksLoading) {
