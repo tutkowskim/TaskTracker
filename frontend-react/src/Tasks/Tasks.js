@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -65,6 +66,14 @@ const useTasks = () => {
   return [areTasksLoading, tasks, setTasksWrapper];
 }
 
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
 function Tasks() {
   const classes = useStyles();
   const [areTasksLoading, tasks, setTasks] = useTasks();
@@ -90,6 +99,24 @@ function Tasks() {
     setTasks([...tasks]);
   };
 
+  const onDragEnd = (result) => {
+    if (!result.destination) {
+      return;
+    }
+
+    if (result.destination.index === result.source.index) {
+      return;
+    }
+
+    const reorderedTasks = reorder(
+      tasks,
+      result.source.index,
+      result.destination.index
+    );
+
+    setTasks([...reorderedTasks]);
+  }
+
   if (areTasksLoading) {
     return (
       <div className={classes.verticalCenterContents}>
@@ -107,11 +134,31 @@ function Tasks() {
         <Button color="primary" onClick={onAddTask}>Add</Button>
       </div>
       <Divider />
+      <DragDropContext onDragEnd={onDragEnd}>
       <List>
-        { tasks.map((task) =>
-          <TaskListItem task={task} onRemoveTask={onRemoveTask} onToggleTaskCompletion={onToggleTaskCompletion} />
-        )}
-      </List>
+        <Droppable droppableId="tasks">
+          {provided => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              <List>
+                {tasks.map((task, index) =>
+                  <Draggable key={task.name} draggableId={task.name} index={index}>
+                    {provided => (
+                      <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                        <TaskListItem
+                          task={task}
+                          onRemoveTask={onRemoveTask}
+                          onToggleTaskCompletion={onToggleTaskCompletion} />
+                      </div>
+                    )}
+                  </Draggable>
+                )}
+              </List>
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+        </List>
+      </DragDropContext>
     </div>
   );
 }
