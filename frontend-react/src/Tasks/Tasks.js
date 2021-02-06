@@ -135,28 +135,28 @@ function Tasks() {
       </div>
       <Divider />
       <DragDropContext onDragEnd={onDragEnd}>
-      <List>
-        <Droppable droppableId="tasks">
-          {provided => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              <List>
-                {tasks.map((task, index) =>
-                  <Draggable key={task.name} draggableId={task.name} index={index}>
-                    {provided => (
-                      <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                        <TaskListItem
-                          task={task}
-                          onRemoveTask={onRemoveTask}
-                          onToggleTaskCompletion={onToggleTaskCompletion} />
-                      </div>
-                    )}
-                  </Draggable>
-                )}
-              </List>
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+        <List>
+          <Droppable droppableId="tasks">
+            {provided => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                <List>
+                  {tasks.map((task, index) =>
+                    <Draggable key={task.name} draggableId={task.name} index={index}>
+                      {provided => (
+                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                          <TaskListItem
+                            task={task}
+                            onRemoveTask={onRemoveTask}
+                            onToggleTaskCompletion={onToggleTaskCompletion} />
+                        </div>
+                      )}
+                    </Draggable>
+                  )}
+                </List>
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
         </List>
       </DragDropContext>
     </div>
