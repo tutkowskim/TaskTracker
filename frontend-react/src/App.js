@@ -61,7 +61,7 @@ function CenteredLoginButton() {
   );
 }
 
-function DisableUser() {
+function DisabledUser() {
   const classes = useStyles();
   return (
     <div className={classes.verticalCenterContents}>
@@ -89,7 +89,7 @@ function App() {
       <Container className={classes.appContent} maxWidth="lg">
         { !isLoadingAuthStatus && isAuthenticated &&
           <Switch>
-            <Route path="/" component={user.isDisabled ? DisableUser : Tasks} exact />
+            <Route path="/" component={user.isDisabled ? DisabledUser : Tasks} exact />
             <Route path="/profile" component={Profile} exact />
             <Redirect from="*" to="/" />
           </Switch>
