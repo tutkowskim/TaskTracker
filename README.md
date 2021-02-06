@@ -1,28 +1,19 @@
 # Todo Tracker
-A simple task tracking application created created to explore building a serverless appliction using Auth0, Azure Functions, and CosmosDB with React and iOS clients.
+A simple task tracking application created created to explore building a serverless application using [Microsoft Azure's Static Website](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-websit) feature and practice React.
 
-# Quick Start
-1. Setup Database
-  1. Create a CosmosDB using azure or the emulator with a 'Tasks' container
-2. Create a `.local.settings.json` file in the backend folder with your devloper settigns
-    ```json
-    {
-      "IsEncrypted": false,
-      "Values": {
-        "FUNCTIONS_WORKER_RUNTIME": "node",
-        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-        "COSMOSDB_ENDPOINT": "<Database URI>",
-        "COSMOSDB_KEY": "<Database Key>",
-        "COSMOSDB_DATABASE_ID": "<Database ID>",
-        "COSMOSDB_CONTAINER_ID": "<Database Container>"
-      }
-    }
-    ```
-2. Start the backend
-    1. Open a new terminal in the backend folder: `cd backend`
-    2. Run npm install: `npm install`
-    3. Start the backend: `npm start`
-3. Start the frontend
-    1. Open a new terminal in the frontend-react folder: `cd frontend-react`
-    2. Run npm install: `npm install`
-    3. Start the react dev server: `npm start`
+## Project Structure
+1. `.github` - Github actions used to build, test, and deploy the application.
+1. `backend` - Azure functions that provide the api calls for the static website.
+1. `backend-mock` - A implementation of the backend, which mocks out the authentication and api calls so that we don't need to access Azure services.
+1. `frontend-angular` - The frontend application written in Angular.
+1. `frontend-react` - The frontend application written in React.
+
+## Quick Start
+1. Start the mock backend for local development
+    1. Open a terminal window in the `backend-mock` directory
+    1. Install dependencies with the command `npm install`
+    1. Start the backend with the command `npm start`
+1. Start the frontend for local development
+    1. Open a terminal window in the frontend directory (`frontend-angular` or `frontend-react`)
+    1. Install dependencies with the command `npm install`
+    1. Start the frontend with the command `npm start`
