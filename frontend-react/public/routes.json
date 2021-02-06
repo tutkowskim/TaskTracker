@@ -1,0 +1,16 @@
+{
+  "routes": [
+    {
+      "route": "/api/*",
+      "allowedRoles": ["user"]
+    },
+    {
+      "route": "/",
+      "serve": "/index.html"
+    },
+    {
+      "route": "/profile",
+      "serve": "/index.html"
+    }
+  ]
+}

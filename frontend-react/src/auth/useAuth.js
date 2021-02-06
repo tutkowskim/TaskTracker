@@ -21,7 +21,10 @@ export default function useAuth() {
       const response = await fetch(AUTH_INFO_API);
       const data = await response.json();
       const user = data.clientPrincipal;
-
+      if (user) {
+        user.isDisabled = !user.userRoles.includes('user');
+      }
+      
       setAuth({
         isLoading: false,
         isAuthenticated: !!user,

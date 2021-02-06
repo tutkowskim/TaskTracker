@@ -50,9 +50,31 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+function CenteredLoginButton() {
+  const classes = useStyles();
+  return (
+    <div className={classes.verticalCenterContents}>
+      <div className={classes.horizontalCenterContents}>
+        <Button onClick={login}>Login</Button>
+      </div>
+    </div>
+  );
+}
+
+function DisableUser() {
+  const classes = useStyles();
+  return (
+    <div className={classes.verticalCenterContents}>
+      <div className={classes.horizontalCenterContents}>
+        <Typography variant="body1">This user account is currently disabled. Please contact the system administrator to unblock this account.</Typography>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const classes = useStyles();
-  const { isLoadingAuthStatus, isAuthenticated } = useAuth();
+  const { isLoadingAuthStatus, isAuthenticated, user } = useAuth();
 
   return (
     <div className={classes.app}>
@@ -67,17 +89,13 @@ function App() {
       <Container className={classes.appContent} maxWidth="lg">
         { !isLoadingAuthStatus && isAuthenticated &&
           <Switch>
-            <Route path="/" component={Tasks} exact />
+            <Route path="/" component={user.isDisabled ? DisableUser : Tasks} exact />
             <Route path="/profile" component={Profile} exact />
             <Redirect from="*" to="/" />
           </Switch>
         }
         { !isLoadingAuthStatus && !isAuthenticated &&
-          <div className={classes.verticalCenterContents}>
-            <div className={classes.horizontalCenterContents}>
-              <Button onClick={login}>Login</Button>
-            </div>
-          </div>
+          <CenteredLoginButton />
         }
       </Container>
     </div>
