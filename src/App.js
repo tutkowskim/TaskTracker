@@ -1,0 +1,90 @@
+import React from 'react';
+import { Link, Route, Switch, Redirect } from 'react-router-dom';
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
+
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+
+import useAuth from './auth/useAuth';
+import Tasks from './Tasks/Tasks';
+import Profile from './Profile/Profile';
+import ProfileToolbarWidget from './Profile/ProfileToolbarWidget';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  app: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh',
+  },
+  toolBar: {
+    height: '64px',
+  },
+  title: {
+    flexGrow: 1,
+    color: 'inherit',
+    textDecoration: 'none',
+  },
+  appContent: {
+    flexBasis: 'calc(100% - 64px)',
+    flexGrow: 1,
+    flexShrink: 1,
+  },
+  verticalCenterContents: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  horizontalCenterContents: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  }
+}));
+
+function App() {
+  const classes = useStyles();
+  const { isLoadingAuthStatus, isAuthenticated } = useAuth();
+  const handleLogin = () => {}
+
+  return (
+    <div className={classes.app}>
+      <AppBar position="static">
+        <Toolbar className={classes.toolBar}>
+          <Link to='/' className={classes.title}>
+            <Typography variant="h6">Task Tracker</Typography>
+          </Link>
+          <ProfileToolbarWidget />        
+        </Toolbar>
+      </AppBar>
+      <Container className={classes.appContent} maxWidth="lg">
+        { !isLoadingAuthStatus && isAuthenticated &&
+          <Switch>
+            <Route path="/" component={Tasks} exact />
+            <Route path="/profile" component={Profile} exact />
+            <Redirect from="*" to="/" />
+          </Switch>
+        }
+        { !isLoadingAuthStatus && !isAuthenticated &&
+          <div className={classes.verticalCenterContents}>
+            <div className={classes.horizontalCenterContents}>
+              <Button onClick={handleLogin}>Login</Button>
+            </div>
+          </div>
+        }
+      </Container>
+
+      <AmplifySignOut />
+    </div>
+  );
+}
+
+export default withAuthenticator(App);
