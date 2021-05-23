@@ -8,8 +8,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 import useWindowSize from '../useWindowSize';
-import useAuth from '../auth/useAuth'; 
-import logout from '../auth/logout';
+import useAuth from '../auth/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   userName: {
@@ -34,6 +33,7 @@ function ProfileToolbarWidget() {
     history.push('/profile');
     handleClose();
   }
+  const handleLogout = () => {}
 
   return (
     <>
@@ -44,7 +44,7 @@ function ProfileToolbarWidget() {
       </Button>
       <Menu id="menu" anchorEl={anchorEl} anchorOrigin={{ vertical: 'bottom', horizontal: 'right'}} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem onClick={handleOpenProfile}>Profile</MenuItem>
-        <MenuItem onClick={logout}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>
   )

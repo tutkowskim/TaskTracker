@@ -9,7 +9,6 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 
 import useAuth from './auth/useAuth';
-import login from './auth/login';
 import Tasks from './Tasks/Tasks';
 import Profile from './Profile/Profile';
 import ProfileToolbarWidget from './Profile/ProfileToolbarWidget';
@@ -53,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
   const { isLoadingAuthStatus, isAuthenticated } = useAuth();
+  const handleLogin = () => {}
 
   return (
     <div className={classes.app}>
@@ -75,7 +75,7 @@ function App() {
         { !isLoadingAuthStatus && !isAuthenticated &&
           <div className={classes.verticalCenterContents}>
             <div className={classes.horizontalCenterContents}>
-              <Button onClick={login}>Login</Button>
+              <Button onClick={handleLogin}>Login</Button>
             </div>
           </div>
         }
