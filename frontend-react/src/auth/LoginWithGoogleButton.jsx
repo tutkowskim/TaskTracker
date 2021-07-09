@@ -53,7 +53,7 @@ function LoginWithGoogleButton() {
   return (
     <div class={classes.button} onClick={login}>
       <div class={classes.iconWrapper}>
-        <img class={classes.icon} src='/GoogleLogo.svg' />
+        <img class={classes.icon} src='/GoogleLogo.svg' alt='Sign in with google' />
       </div>
       <p class={classes.text}><b>Sign in with google</b></p>
     </div>
