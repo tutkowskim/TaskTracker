@@ -1,6 +1,7 @@
 import React from 'react';
-import { Container, makeStyles } from '@material-ui/core';
+import { Container, CssBaseline, makeStyles, ThemeProvider } from '@material-ui/core';
 
+import theme from './theme';
 import useAuth from './auth/useAuth';
 import LoginButton from './auth/LoginButton';
 import NavBar from './NavBar';
@@ -23,13 +24,16 @@ function App() {
   const classes = useStyles();
   const { isLoadingAuthStatus, isAuthenticated } = useAuth();
   return (
-    <div className={classes.app}>
-      <NavBar />
-      <Container className={classes.appContent} maxWidth="lg">
-        { !isLoadingAuthStatus && isAuthenticated && <RouterOutlet /> }
-        { !isLoadingAuthStatus && !isAuthenticated && <LoginButton /> }
-      </Container>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <div className={classes.app}>
+        <NavBar />
+        <Container className={classes.appContent} maxWidth="lg">
+          { !isLoadingAuthStatus && isAuthenticated && <RouterOutlet /> }
+          { !isLoadingAuthStatus && !isAuthenticated && <LoginButton /> }
+        </Container>
+      </div>
+    </ThemeProvider>
   );
 }
 
