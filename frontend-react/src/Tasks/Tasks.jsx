@@ -1,15 +1,10 @@
 import React, {useState} from 'react';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import TextField from '@material-ui/core/TextField';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
+import { Button, CircularProgress, Divider, TextField, List, makeStyles } from '@material-ui/core';
 import useTasks from './useTasks';
 import TaskListItem from './TaskListItem';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     width: '100%',
   },

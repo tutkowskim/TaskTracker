@@ -26,7 +26,7 @@ export default function useAuth() {
       }
       
       setAuth({
-        isLoading: false,
+        isLoadingAuthStatus: false,
         isAuthenticated: !!user,
         user,
       });
