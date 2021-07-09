@@ -1,5 +1,6 @@
 import React from 'react';
-import { Typography, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+import LoginWithGoogleButton from './LoginWithGoogleButton';
 
 const useStyles = makeStyles(() => ({
   verticalCenterContents: {
@@ -16,15 +17,15 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-function DisabledUser() {
+function LoginPage() {
   const classes = useStyles();
   return (
     <div className={classes.verticalCenterContents}>
       <div className={classes.horizontalCenterContents}>
-        <Typography variant="body1">This user account is currently disabled. Please contact the system administrator to unblock this account.</Typography>
+        <LoginWithGoogleButton />
       </div>
     </div>
   );
 }
 
-export default DisabledUser
+export default LoginPage

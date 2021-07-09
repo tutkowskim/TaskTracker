@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, makeStyles } from '@material-ui/core';
-import login from './login';
+import { Typography, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   verticalCenterContents: {
@@ -17,15 +16,15 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-function LoginButton() {
+function DisabledUserPage() {
   const classes = useStyles();
   return (
     <div className={classes.verticalCenterContents}>
       <div className={classes.horizontalCenterContents}>
-        <Button onClick={login}>Login</Button>
+        <Typography variant="body1">This user account is currently disabled. Please contact the system administrator to unblock this account.</Typography>
       </div>
     </div>
   );
 }
 
-export default LoginButton
+export default DisabledUserPage
