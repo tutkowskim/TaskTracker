@@ -1,0 +1,28 @@
+name: Deploy to S3
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: yarn
+      - run: yarn build
+      - run: yarn lint
+      - run: yarn test
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets. AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets. AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Copy files to the s3 website content bucket
+        run:
+          aws s3 sync build s3://${{ secrets.AWS_S3_BUCKET_NAME }} --delete
